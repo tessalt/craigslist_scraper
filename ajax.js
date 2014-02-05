@@ -1,5 +1,12 @@
-
 $(document).ready(function(){
+
+ moment().format();
+
+ var today = moment();
+
+ var list = $("#listings");
+
+ var rootURL = 'http://toronto.en.craigslist.ca/';
 
   function isInside(lat, lng) {
     return geolib.isPointInside(
@@ -14,25 +21,50 @@ $(document).ready(function(){
   }
 
   function fetchListings(listing) {
-    if (listing.NumPosts > 1) {
-      var returned = $.get(listing.url, function(data){
-        for (var j = 0; j < data[0].length; j++) {
-          fetchListings(data[0][i]);
+    $.get(listing.url, function(resp){
+      var item = jQuery.parseJSON(resp);
+      item = item[0];
+      console.log(item);
+    });
+  }
+
+  function walk(data) {
+    var listings = jQuery.parseJSON(data);
+    listings = listings[0];
+    for (var i = 0; i < listings.length; i++) {
+      var stamp = moment(listings[i].PostedDate, 'X');
+      var timeDiff = today.diff(stamp, 'days');
+      if (timeDiff < 5) {
+        if (listings[i].url !== undefined) {
+          var inBounds = isInside(listings[i].Latitude, listings[i].Longitude);
+          if (inBounds == true) {
+            $.ajax({
+              url: listings[i].url,
+              success: function(resp) {
+                walk(resp);
+              }
+            });
+          }
+        } else {
+          var inBounds = isInside(listings[i].Latitude, listings[i].Longitude);
+          console.log("inBounds: " + inBounds + "  Price: " + listings[i].Ask);
+          if (inBounds == true && listings[i].Ask > 1 && listings[i].Ask < 1101) {
+            var li = $("<li>");
+            var html = "<a href='" + rootURL + listings[i].PostingURL + "'>" + listings[i].PostingTitle + "</a>";
+            if (inBounds == true) {
+              html += "<strong>INBOUNDS</strong>";
+            }
+            li.html(html);
+            list.append(li);
+          }
         }
-      });
-    } else {
-      return listing;
+      }
     }
   }
 
+
   $.get('/listings', function(data){
-    for (var i = 0; i < data[0].length; i++) {
-      var listing = data[0][i];
-      var inside = isInside(listing.Latitude, listing.Longitude)
-      if (inside == true && listing.Ask > 0 && listing.Ask < 1100) {
-        console.log(fetchListings(listing));
-      }
-    }
+    walk(data);
   });
 
 });

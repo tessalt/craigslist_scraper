@@ -1,6 +1,7 @@
 var express = require('express');
 var request = require('request');
 var app = express();
+app.use(express.bodyParser());
 app.configure(function () {
     app.use(
         "/", //the URL throught which you want to access to you static content
@@ -18,10 +19,11 @@ app.get('/listings', function(req, res){
   })
 });
 
-app.get('/jsonsearch/:id', function(req, res) {
-  request.get('http://toronto.en.craigslist.ca/jsonsearch/' + req.params['id'], function(error, response, body){
+app.get('/jsonsearch/apa*', function(req, res) {
+  request.get('http://toronto.en.craigslist.ca/jsonsearch/apa?geocluster=' + req.query.geocluster + '&key=' + req.query.key , function(error, response, body){
     res.send(body);
   });
+  console.log(req.query);
 });
 
 app.listen(3000); //the port you want to use

@@ -1,7 +1,12 @@
 var express = require('express');
 var request = require('request');
+var fs = require('fs');
 var app = express();
+
+var config = JSON.parse(fs.readFileSync("config.json"));
+
 app.use(express.bodyParser());
+
 app.configure(function () {
     app.use(
         "/", //the URL throught which you want to access to you static content

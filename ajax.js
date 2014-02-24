@@ -37,7 +37,7 @@
           var inBounds = isInside(listings[i].Latitude, listings[i].Longitude);
           if (inBounds == true && listings[i].Ask > 1 && listings[i].Ask < 1101) {
             var li = $("<li>");
-            var html = "<a href='" + rootURL + listings[i].PostingURL + "'>" + listings[i].PostingTitle + "</a>";
+            var html = "<a target='_blank' href='" + rootURL + listings[i].PostingURL + "'>" + listings[i].PostingTitle + "</a>";
             li.html(html);
             list.append(li);
           }
@@ -48,9 +48,9 @@
 
   $.get('/config', function(response){
     config = response;
-    // $.get('/listings', function(data){
-    //   walk(data);
-    // });
+    $.get('/listings', function(data){
+      walk(data);
+    });
   });
 
   var kj_listings_loaded = new $.Deferred();
@@ -104,7 +104,7 @@
     console.log(kj_items);
     $.each(kj_items, function(index, item) {
       var li = $("<li>");
-      var html = "<a href='" + item.link + "'>" + item.title + "</a>";
+      var html = "<a target='_blank' href='" + item.link + "'>" + item.title + "</a>";
       li.html(html);
       list.append(li);
     });

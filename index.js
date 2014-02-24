@@ -38,4 +38,16 @@ app.get('/jsonsearch/apa*', function(req, res) {
   console.log(req.query);
 });
 
+app.get('/kijiji', function(req, res){
+  request.get('http://toronto.kijiji.ca/f-SearchAdRss?CatId=211&Location=1700273&maxPrice=1%2C100&maxPriceBackend=110000&minPrice=200&minPriceBackend=20000', function(error, response, body){
+    res.send(body);
+  });
+});
+
+app.get('/kijiji_listings*', function(req, res){
+  request.get('http://toronto.kijiji.ca/' + req.query.url, function(error, response, body){
+    res.send(body);
+  });
+});
+
 app.listen(3000); //the port you want to use

@@ -1,10 +1,10 @@
 {
   "city" : "toronto",
   "coordinates" : [
-    {"latitude": 43.63484, "longitude": -79.42576},
-    {"latitude": 43.65410, "longitude": -79.43327},
-    {"latitude": 43.66214, "longitude": -79.37975},
-    {"latitude": 43.64565, "longitude": -79.36984}
+    {"latitude": 43.659852, "longitude": -79.435272},
+    {"latitude": 43.678788, "longitude": -79.344721},
+    {"latitude": 43.655381, "longitude": -79.336052},
+    {"latitude": 43.633953, "longitude": -79.430037}
   ],
   "maxPrice" : 1100,
   "bedrooms" : 1

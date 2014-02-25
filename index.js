@@ -21,13 +21,17 @@ app.get('/', function(req, res){
   res.render('index');
 });
 
+app.get('/test', function(req, res){
+  res.sendfile('data/data.json');
+});
+
 app.get('/config', function(req, res){
   res.send(config);
 });
 
 app.get('/listings', function(req, res){
   request.get('http://' + config.city + '.en.craigslist.ca/jsonsearch/apa?useMap=1&zoomToPosting=&catAbb=apa&query=&minAsk=&maxAsk=' + config.maxPrice + '&bedrooms=1&housing_type=&excats=', function(error, response, body){
-    res.send(body);
+    res.send( body);
   })
 });
 

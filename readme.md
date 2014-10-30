@@ -1,0 +1,1 @@
+Run `node index` from root of repo, visit localhost:3000 in browswer. It might take a really long time for anything to show up. Edit config.json to specify coordinates of polygon to search within, maxprice, and # of bedrooms. 
